@@ -231,7 +231,7 @@ display( df.select( "date", "quarter" ) )
 [dayofmonth()](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.dayofmonth.html)関数を使って、日付が年の何日目に該当するかを求めます。
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, quarter( <日付型のカラム> ) )
+df.withColumn( <追加するカラム名>, dayofmonth( <日付型のカラム> ) )
 
 # 例文
 from pyspark.sql.functions import dayofmonth
@@ -275,7 +275,7 @@ from pyspark.sql.functions import last_day
 df = df.withColumn( "last_day_of_month", last_day( "date" ) )
 display( df.select( "date", "last_day_of_month" ) )
 ```
-|  | date | dayofweek |
+|  | date | last_day_of_month |
 |:-:|:-:|:-:|
 | 1 | 2018-06-02 | 2018-06-30 |
 | 2 | 2017-09-04 | 2017-09-30 |
@@ -305,7 +305,7 @@ display( df.select( "timestamp", "time" ) )
 [unix_timestamp()](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.unix_timestamp.html)関数を使って、時刻を[UNIX時間](https://ja.wikipedia.org/wiki/UNIX%E6%99%82%E9%96%93)に変換します。
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, timestamp_seconds( <日付型のカラム> ) )
+df.withColumn( <追加するカラム名>, unix_timestamp( <日付型のカラム> ) )
 
 # 例文
 from pyspark.sql.functions import unix_timestamp
@@ -499,7 +499,7 @@ from pyspark.sql.functions import months_between
 df2 = df2.withColumn( "months_between", months_between( "end_date", "start_date" ) )
 display( df2.select( "start_date", "end_date", "months_between" ) )
 ```
-|  | start_date | end_date  | datediff |
+|  | start_date | end_date  | months_between |
 |:-:|:-:|:-:|:-:|
 | 1 | 2017-11-07 | 2017-10-01 | -1.19354839 |
 | 2 | 2016-11-17 | 2016-05-30 | -5.58064516 |
@@ -567,7 +567,7 @@ display( df2.select( "start_date", "three_days_before_start_date" )  )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, date_sub( <日付型のカラム>, <日数> ) )
+df.withColumn( <追加するカラム名>, add_months( <日付型のカラム>, <日数> ) )
 
 # 例文
 from pyspark.sql.functions import add_months
