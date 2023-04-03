@@ -7,3 +7,4 @@ PySparkの使い方を逆引き形式でまとめたドキュメントと、サ�
 - [2. 日付時刻編](https://github.com/motokazu-ishikawa-db/gyakubiki_pyspark/blob/master/doc/%E9%80%86%E5%BC%95%E3%81%8DPySpark_2_%E6%97%A5%E4%BB%98%E6%99%82%E5%88%BB%E7%B7%A8.md)
 - [3. 文字列編](https://github.com/motokazu-ishikawa-db/gyakubiki_pyspark/blob/master/doc/%E9%80%86%E5%BC%95%E3%81%8DPySpark_3_%E6%96%87%E5%AD%97%E5%88%97%E7%B7%A8.md)
 - [4. データ分析編](https://github.com/motokazu-ishikawa-db/gyakubiki_pyspark/blob/master/doc/%E9%80%86%E5%BC%95%E3%81%8DPySpark_4_%E3%83%87%E3%83%BC%E3%82%BF%E5%88%86%E6%9E%90%E7%B7%A8.md)
+- [5. 結合編](https://github.com/motokazu-ishikawa-db/gyakubiki_pyspark/blob/master/doc/%E9%80%86%E5%BC%95%E3%81%8DPySpark_5_%E7%B5%90%E5%90%88%E7%B7%A8.md)
