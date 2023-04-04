@@ -1,9 +1,10 @@
-PySparkでこういう場合はどうしたらいいのかをまとめた逆引きPySparkの文字列編です。
+PySparkでこういう場合はどうしたらいいのかをまとめた[逆引きPySparkシリーズ](https://qiita.com/motokazu_ishikawa/items/c55c55426d24edb43a36)の文字列編です。
 （随時更新予定です。）
 
 - 原則としてApache Spark 3.3のPySparkのAPIに準拠していますが、一部、便利なDatabricks限定の機能も利用しています（利用しているところはその旨記載しています）。
 - Databricks Runtime 11.3 上で動作することを確認しています。
 - ノートブックを[こちらのリポジトリ](https://github.com/motokazu-ishikawa-db/gyakubiki_pyspark) から[Repos](https://qiita.com/taka_yayoi/items/b89f199ff0d3a4c16140)にてご使用のDatabricksの環境にダウンロードできます。
+- 逆引きPySparkの他の章については、[こちらの記事](https://qiita.com/motokazu_ishikawa/items/c55c55426d24edb43a36)をご覧ください。
 
 ## 例文の前提条件
 - SparkSessionオブジェクトがsparkという変数名で利用可能なこと
@@ -14,13 +15,13 @@ PySparkでこういう場合はどうしたらいいのかをまとめた逆引�
 [upper()](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.upper.html#pyspark.sql.functions.upper)関数を使って、文字列を大文字にします。
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, upper(<文字列型のカラム>) )
+df.withColumn( <追加するカラム名>, F.upper(<文字列型のカラム>) )
 
 # 例文
-from pyspark.sql.functions import upper
+from pyspark.sql import functions as F
 
-df = ( df.withColumn( "first_name_upper", upper("first_name") )
-         .withColumn( "last_name_upper", upper("last_name") ) )
+df = ( df.withColumn( "first_name_upper", F.upper("first_name") )
+         .withColumn( "last_name_upper", F.upper("last_name") ) )
 ```
 出力例
 |  | number | first_name | last_name | first_name_upper | last_name_upper |
@@ -33,13 +34,13 @@ df = ( df.withColumn( "first_name_upper", upper("first_name") )
 [lower()](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.lower.html#pyspark.sql.functions.lower)関数を使って、文字列を小文字にします。
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, lower(<文字列型のカラム>) )
+df.withColumn( <追加するカラム名>, F.lower(<文字列型のカラム>) )
 
 # 例文
-from pyspark.sql.functions import lower
+from pyspark.sql import functions as F
 
-df = ( df.withColumn( "first_name_lower", lower("first_name") )
-         .withColumn( "last_name_lower", lower("last_name") ) )
+df = ( df.withColumn( "first_name_lower", F.lower("first_name") )
+         .withColumn( "last_name_lower", F.lower("last_name") ) )
 ```
 出力例
 |  | number | first_name | last_name | first_name_lower | last_name_lower |
@@ -52,13 +53,13 @@ df = ( df.withColumn( "first_name_lower", lower("first_name") )
 [initcap()](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.initcap.html#pyspark.sql.functions.initcap)関数を使って、単語の先頭文字を大文字にします。
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, initcap(<文字列型のカラム>) )
+df.withColumn( <追加するカラム名>, F.initcap(<文字列型のカラム>) )
 
 # 例文
-from pyspark.sql.functions import initcap
+from pyspark.sql import functions as F
 
-df = ( df.withColumn( "first_name_initcap", initcap("first_name") )
-         .withColumn( "last_name_initcap", initcap("last_name") ) )
+df = ( df.withColumn( "first_name_initcap", F.initcap("first_name") )
+         .withColumn( "last_name_initcap", F.initcap("last_name") ) )
 ```
 出力例
 |  | number | first_name | last_name | first_name_initcap | last_name_initcap |
@@ -71,12 +72,12 @@ df = ( df.withColumn( "first_name_initcap", initcap("first_name") )
 [format_number()](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.format_number.html#pyspark.sql.functions.format_number)関数を使って、数値を整形します。
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, format_number(<数値型のカラム>, <小数点以下の桁数>) )
+df.withColumn( <追加するカラム名>, F.format_number(<数値型のカラム>, <小数点以下の桁数>) )
 
 # 例文
-from pyspark.sql.functions import format_number
+from pyspark.sql import functions as F
 
-df.withColumn(　"salary_formatted",　format_number(　"salary",　2　)　)
+display( df.withColumn( "salary_formatted", F.format_number( "salary", 2 ) ) )
 ```
 出力例
 |  | number | first_name | last_name | salary | salary_formatted |
@@ -89,12 +90,12 @@ df.withColumn(　"salary_formatted",　format_number(　"salary",　2　)　)
 [format_string()](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.format_string.html#pyspark.sql.functions.format_string)関数を使って、[printfフォーマット](https://qiita.com/takahirocook/items/06d525be63eccd99ed49)の書式で文字列を出力します。
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, format_string(<書式>, <カラム>[,<カラム>...]) )
+df.withColumn( <追加するカラム名>, F.format_string(<書式>, <カラム>[,<カラム>...]) )
 
 # 例文
-from pyspark.sql.functions import format_string
+from pyspark.sql import functions as F
 
-df.withColumn( "string_formatted", format_string( "%s's number is %d", "last_name", "number" ) )
+display( df.withColumn( "string_formatted", F.format_string( "%s's number is %d", "last_name", "number" ) ) )
 ```
 出力例
 |  | number | first_name | last_name | string_formatted |
@@ -108,12 +109,12 @@ df.withColumn( "string_formatted", format_string( "%s's number is %d", "last_nam
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, lpad(<カラム>, <文字列長>, <パディングに使う文字>) )
+df.withColumn( <追加するカラム名>, F.lpad(<カラム>, <文字列長>, <パディングに使う文字>) )
 
 # 例文
-from pyspark.sql.functions import lpad
+from pyspark.sql import functions as F
 
-df.withColumn( "number_padded", lpad( "number", 4, "0" ) )
+display( df.withColumn( "number_padded", F.lpad( "number", 4, "0" ) ) )
 ```
 出力例
 |  | number | first_name | last_name | number_padded |
@@ -127,12 +128,12 @@ df.withColumn( "number_padded", lpad( "number", 4, "0" ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, rpad(<カラム>, <文字列長>, <パディングに使う文字>) )
+df.withColumn( <追加するカラム名>, F.rpad(<カラム>, <文字列長>, <パディングに使う文字>) )
 
 # 例文
-from pyspark.sql.functions import rpad
+from pyspark.sql import functions as F
 
-df.withColumn( "number_padded", rpad( "number", 4, "0" ) )
+df.withColumn( "number_padded", F.rpad( "number", 4, "0" ) )
 ```
 出力例
 |  | number | first_name | last_name | number_padded |
@@ -146,12 +147,12 @@ df.withColumn( "number_padded", rpad( "number", 4, "0" ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, ltrim(<文字列型カラム>) )
+df.withColumn( <追加するカラム名>, F.ltrim(<文字列型カラム>) )
 
 # 例文
-from pyspark.sql.functions import ltrim
+from pyspark.sql import functions as F
 
-df.withColumn( "first_name_trimmed", ltrim( "first_name" ) )
+df.withColumn( "first_name_trimmed", F.ltrim( "first_name" ) )
 ```
 出力例
 |  | number | first_name | last_name | first_name_trimmed |
@@ -165,12 +166,12 @@ df.withColumn( "first_name_trimmed", ltrim( "first_name" ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, rtrim(<文字列型カラム>) )
+df.withColumn( <追加するカラム名>, F.rtrim(<文字列型カラム>) )
 
 # 例文
-from pyspark.sql.functions import rtrim
+from pyspark.sql import functions as F
 
-df.withColumn( "first_name_trimmed", rtrim( "first_name" ) )
+df.withColumn( "first_name_trimmed", F.rtrim( "first_name" ) )
 ```
 出力例
 |  | number | first_name | last_name | first_name_trimmed |
@@ -184,12 +185,12 @@ df.withColumn( "first_name_trimmed", rtrim( "first_name" ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, trim(<文字列型カラム>) )
+df.withColumn( <追加するカラム名>, F.trim(<文字列型カラム>) )
 
 # 例文
-from pyspark.sql.functions import trim
+from pyspark.sql import functions as F
 
-df.withColumn( "first_name_trimmed", trim( "first_name" ) )
+df.withColumn( "first_name_trimmed", F.trim( "first_name" ) )
 ```
 出力例
 |  | number | first_name | last_name | first_name_trimmed |
@@ -205,12 +206,12 @@ df.withColumn( "first_name_trimmed", trim( "first_name" ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, instr(<検索対象の文字列型カラム>, <検索する部分文字列>) )
+df.withColumn( <追加するカラム名>, F.instr(<検索対象の文字列型カラム>, <検索する部分文字列>) )
 
 # 例文
-from pyspark.sql.functions import instr
+from pyspark.sql import functions as F
 
-df.withColumn( "instr_position", instr( "what_is", "open" ) )
+df.withColumn( "instr_position", F.instr( "what_is", "open" ) )
 ```
 出力例
 |  | name | what_is | position |
@@ -225,12 +226,12 @@ df.withColumn( "instr_position", instr( "what_is", "open" ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, instr(<検索する部分文字列>, <検索対象の文字列型カラム>[, <検索する最初の位置>]) )
+df.withColumn( <追加するカラム名>, F.instr(<検索する部分文字列>, <検索対象の文字列型カラム>[, <検索する最初の位置>]) )
 
 # 例文
-from pyspark.sql.functions import locate
+from pyspark.sql import functions as F
 
-df.withColumn( "locate_position", locate( "is", "proverb", 10 ) )
+df.withColumn( "locate_position", F.locate( "is", "proverb", 10 ) )
 ```
 出力例
 |  | proverb | locate_position |
@@ -244,12 +245,12 @@ df.withColumn( "locate_position", locate( "is", "proverb", 10 ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, substring(<文字列型カラム>, <部分文字列の開始位置>, <部分文字列の長さ>) )
+df.withColumn( <追加するカラム名>, F.substring(<文字列型カラム>, <部分文字列の開始位置>, <部分文字列の長さ>) )
 
 # 例文
-from pyspark.sql.functions import substring
+from pyspark.sql import functions as F
 
-display( df.withColumn( "substring", substring( "proverb", 22, 5 ) ) )
+display( df.withColumn( "substring", F.substring( "proverb", 22, 5 ) ) )
 ```
 出力例
 |  | proverb | substring |
@@ -266,12 +267,12 @@ display( df.withColumn( "substring", substring( "proverb", 22, 5 ) ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, regexp_extract(<文字列型カラム>, <正規表現パターン>, <マッチ文字列の何番目の要素を抽出するか>) )
+df.withColumn( <追加するカラム名>, F.regexp_extract(<文字列型カラム>, <正規表現パターン>, <マッチ文字列の何番目の要素を抽出するか>) )
 
 # 例文
-from pyspark.sql.functions import regexp_extract
+from pyspark.sql import functions as F
 
-display( df.withColumn( "hyphon", regexp_extract( "what_is", r"\w+-\w+", 0 ) ) )
+display( df.withColumn( "hyphon", F.regexp_extract( "what_is", r"\w+-\w+", 0 ) ) )
 ```
 出力例
 |  | name | what_is | hyphon_word |
@@ -285,12 +286,12 @@ display( df.withColumn( "hyphon", regexp_extract( "what_is", r"\w+-\w+", 0 ) ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, substring_index(<文字列型カラム>, <区切り文字>, <登場回数>) )
+df.withColumn( <追加するカラム名>, F.substring_index(<文字列型カラム>, <区切り文字>, <登場回数>) )
 
 # 例文
-from pyspark.sql.functions import substring_index
+from pyspark.sql import functions as F
 
-display( df.withColumn( "subdomain", substring_index( "domain", ".", 1 ) ) )
+display( df.withColumn( "subdomain", F.substring_index( "domain", ".", 1 ) ) )
 ```
 出力例
 |  | name | domain | subdomain |
@@ -310,12 +311,12 @@ display( df.withColumn( "subdomain", substring_index( "domain", ".", 1 ) ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, regexp_replace(<文字列型カラム>, <正規表現パターン>, <置換に使う文字列>) )
+df.withColumn( <追加するカラム名>, F.regexp_replace(<文字列型カラム>, <正規表現パターン>, <置換に使う文字列>) )
 
 # 例文
-from pyspark.sql.functions import regexp_replace
+from pyspark.sql import functions as F
 
-display( df.withColumn( "note_wo_phone", regexp_replace( "note", r"\d{3}-\d{4}-\d{4}", "<redacted>" ) ) )
+display( df.withColumn( "note_wo_phone", F.regexp_replace( "note", r"\d{3}-\d{4}-\d{4}", "<redacted>" ) ) )
 ```
 出力例
 |  | note_taker | note | note_wo_phone |
@@ -329,12 +330,12 @@ display( df.withColumn( "note_wo_phone", regexp_replace( "note", r"\d{3}-\d{4}-\
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, overlay(<文字列型カラム>, <上書きする文字列型カラム>, <上書きする位置>[, <上書きする長さ>]) )
+df.withColumn( <追加するカラム名>, F.overlay(<文字列型カラム>, <上書きする文字列型カラム>, <上書きする位置>[, <上書きする長さ>]) )
 
 # 例文
-from pyspark.sql.functions import overlay
+from pyspark.sql import functions as F
 
-display( df.withColumn( "overlayed", overlay( "original", "phrase", "pos", "len" ) ) )
+display( df.withColumn( "overlayed", F.overlay( "original", "phrase", "pos", "len" ) ) )
 ```
 出力例
 |  | original | phrase | pos | len | overlayed |
@@ -348,12 +349,12 @@ display( df.withColumn( "overlayed", overlay( "original", "phrase", "pos", "len"
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, translate(<文字列型カラム>, <置換される文字>, <置換する文字>) )
+df.withColumn( <追加するカラム名>, F.translate(<文字列型カラム>, <置換される文字>, <置換する文字>) )
 
 # 例文
-from pyspark.sql.functions import translate
+from pyspark.sql import functions as F
 
-display( df.withColumn( "order_corrected", translate( "order", "olSeg", "01569" ) ) )
+display( df.withColumn( "order_corrected", F.translate( "order", "olSeg", "01569" ) ) )
 ```
 出力例
 |  | item | order | order_corrected |
@@ -375,12 +376,12 @@ display( df.withColumn( "order_corrected", translate( "order", "olSeg", "01569" 
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, split(<文字列型カラム>, <正規表現パターン>[, <最大回数>]) )
+df.withColumn( <追加するカラム名>, F.split(<文字列型カラム>, <正規表現パターン>[, <最大回数>]) )
 
 # 例文
-from pyspark.sql.functions import split
+from pyspark.sql import functions as F
 
-df.withColumn( "number_split", split( "number", "[()-]", -1 ) )
+df.withColumn( "number_split", F.split( "number", "[()-]", -1 ) )
 ```
 出力例
 |  | company | number | number_split |
@@ -394,12 +395,12 @@ df.withColumn( "number_split", split( "number", "[()-]", -1 ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, sentences(<文字列型カラム>[, <言語を指定するカラム>, <国を指定するカラム>]) )
+df.withColumn( <追加するカラム名>, F.sentences(<文字列型カラム>[, <言語を指定するカラム>, <国を指定するカラム>]) )
 
 # 例文
-from pyspark.sql.functions import sentences
+from pyspark.sql import functions as F
 
-display( df.withColumn( "example_split", sentences( "example", "language", "country" ) ) )
+display( df.withColumn( "example_split", F.sentences( "example", "language", "country" ) ) )
 ```
 出力例
 |  | example | language | country | example_split |
@@ -413,12 +414,12 @@ display( df.withColumn( "example_split", sentences( "example", "language", "coun
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, concat(<文字列型カラム>[,...<文字列型カラム>]) )
+df.withColumn( <追加するカラム名>, F.concat(<文字列型カラム>[,...<文字列型カラム>]) )
 
 # 例文
-from pyspark.sql.functions import concat, lit
+from pyspark.sql import functions as F
 
-display( df.withColumn( "concatenated", concat( "title", lit(". "), "first_name", lit(" "), "last_name" ) ) )
+display( df.withColumn( "concatenated", F.concat( "title", F.lit(". "), "first_name", F.lit(" "), "last_name" ) ) )
 ```
 出力例
 |  | title | first_name | last_name | concatenated |
@@ -432,12 +433,12 @@ display( df.withColumn( "concatenated", concat( "title", lit(". "), "first_name"
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, concat_ws(<区切り文字>,<文字列型カラム>[,...<文字列型カラム>]) )
+df.withColumn( <追加するカラム名>, F.concat_ws(<区切り文字>,<文字列型カラム>[,...<文字列型カラム>]) )
 
 # 例文
-from pyspark.sql.functions import concat_ws
+from pyspark.sql import functions as F
 
-display( df.withColumn( "concatenated", concat_ws( "-", "code", "number_1", "number_2" ) ) )
+display( df.withColumn( "concatenated", F.concat_ws( "-", "code", "number_1", "number_2" ) ) )
 ```
 出力例
 |  | code | number_1 | number_2 | concatenated |
@@ -451,12 +452,12 @@ display( df.withColumn( "concatenated", concat_ws( "-", "code", "number_1", "num
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, repeat(<文字列型カラム>,<繰り返し回数>) )
+df.withColumn( <追加するカラム名>, F.repeat(<文字列型カラム>,<繰り返し回数>) )
 
 # 例文
-from pyspark.sql.functions import repeat
+from pyspark.sql import functions as F
 
-display( df.withColumn( "code_repeated", repeat( "code", 2 ) ) )
+display( df.withColumn( "code_repeated", F.repeat( "code", 2 ) ) )
 ```
 出力例
 |  | number | code | code_repeated |
@@ -472,12 +473,12 @@ display( df.withColumn( "code_repeated", repeat( "code", 2 ) ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, ascii(<文字列型カラム>) )
+df.withColumn( <追加するカラム名>, F.ascii(<文字列型カラム>) )
 
 # 例文
-from pyspark.sql.functions import ascii
+from pyspark.sql import functions as F
 
-display( df.withColumn( "ascii_code", ascii( "code" ) ) )
+display( df.withColumn( "ascii_code", F.ascii( "code" ) ) )
 ```
 出力例
 |  | number | code | ascii_code |
@@ -491,12 +492,12 @@ display( df.withColumn( "ascii_code", ascii( "code" ) ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, base64(<文字列型カラム>) )
+df.withColumn( <追加するカラム名>, F.base64(<文字列型カラム>) )
 
 # 例文
-from pyspark.sql.functions import base64
+from pyspark.sql import functions as F
 
-display( df.withColumn( "base64_encoded", base64( "code" ) ) )
+display( df.withColumn( "base64_encoded", F.base64( "code" ) ) )
 ```
 出力例
 |  | number | code | base64_encoded |
@@ -510,12 +511,12 @@ display( df.withColumn( "base64_encoded", base64( "code" ) ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, unbase64(<文字列型カラム>) )
+df.withColumn( <追加するカラム名>, F.unbase64(<文字列型カラム>) )
 
 # 例文
-from pyspark.sql.functions import unbase64
+from pyspark.sql import functions as F
 
-display( df.withColumn( "original_code", unbase64( "base64_encoded" ).cast("string") ) )
+display( df.withColumn( "original_code", F.unbase64( "base64_encoded" ).cast("string") ) )
 ```
 出力例
 |  | number | base64_encoded | original_code |
@@ -529,12 +530,12 @@ display( df.withColumn( "original_code", unbase64( "base64_encoded" ).cast("stri
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, encode(<文字列型カラム>、<キャラクターセット>) )
+df.withColumn( <追加するカラム名>, F.encode(<文字列型カラム>、<キャラクターセット>) )
 
 # 例文
-from pyspark.sql.functions import encode
+from pyspark.sql import functions as F
 
-df.withColumn( "encoded", encode( "nihongo", "UTF-8" ) ).printSchema()
+df.withColumn( "encoded", F.encode( "nihongo", "UTF-8" ) ).printSchema()
 ```
 出力例
 root
@@ -547,13 +548,13 @@ root
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, decode(<バイナリ型カラム>, <キャラクターセット>) )
+df.withColumn( <追加するカラム名>, F.decode(<バイナリ型カラム>, <キャラクターセット>) )
 
 # 例文
-from pyspark.sql.functions import decode, encode
+from pyspark.sql import functions as F
 
-display( df.withColumn( "encoded", encode( "nihongo", "UTF-8" ) )
-           .withColumn( "decoded", decode( "encoded", "UTF-8" ) ) )
+display( df.withColumn( "encoded", F.encode( "nihongo", "UTF-8" ) )
+           .withColumn( "decoded", F.decode( "encoded", "UTF-8" ) ) )
 ```
 出力例
 |  | nihongo | encoded | decoded |
@@ -567,12 +568,12 @@ display( df.withColumn( "encoded", encode( "nihongo", "UTF-8" ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, soundex(<文字列型カラム>) )
+df.withColumn( <追加するカラム名>, F.soundex(<文字列型カラム>) )
 
 # 例文
-from pyspark.sql.functions import soundex
+from pyspark.sql import functions as F
 
-display( df.withColumn( "soundex", soundex( "fruit" ) ) )
+display( df.withColumn( "soundex", F.soundex( "fruit" ) ) )
 ```
 出力例
 |  | number | fruit | soundex |
@@ -588,12 +589,12 @@ display( df.withColumn( "soundex", soundex( "fruit" ) ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, length(<文字列型カラム>) )
+df.withColumn( <追加するカラム名>, F.length(<文字列型カラム>) )
 
 # 例文
-from pyspark.sql.functions import length
+from pyspark.sql import functions as F
 
-display( df.withColumn( "length", length( "fruit" ) ) )
+display( df.withColumn( "length", F.length( "fruit" ) ) )
 ```
 出力例
 |  | number | fruit | length |
@@ -607,12 +608,12 @@ display( df.withColumn( "length", length( "fruit" ) ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, bit_length(<文字列型カラム>) )
+df.withColumn( <追加するカラム名>, F.bit_length(<文字列型カラム>) )
 
 # 例文
-from pyspark.sql.functions import bit_length
+from pyspark.sql import functions as F
 
-display( df.withColumn( "bit_length", bit_length( "fruit" ) ) )
+display( df.withColumn( "bit_length", F.bit_length( "fruit" ) ) )
 ```
 出力例
 |  | number | fruit | bit_length |
@@ -626,12 +627,12 @@ display( df.withColumn( "bit_length", bit_length( "fruit" ) ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, octet_length(<文字列型カラム>) )
+df.withColumn( <追加するカラム名>, F.octet_length(<文字列型カラム>) )
 
 # 例文
-from pyspark.sql.functions import octet_length
+from pyspark.sql import functions as F
 
-display( df.withColumn( "octet_length", octet_length( "fruit" ) ) )
+display( df.withColumn( "octet_length", F.octet_length( "fruit" ) ) )
 ```
 出力例
 |  | number | fruit | octet_length |
@@ -645,12 +646,12 @@ display( df.withColumn( "octet_length", octet_length( "fruit" ) ) )
 
 ```py
 # 構文
-df.withColumn( <追加するカラム名>, levenshtein(<文字列型カラム>, <文字列型カラム>) )
+df.withColumn( <追加するカラム名>, F.levenshtein(<文字列型カラム>, <文字列型カラム>) )
 
 # 例文
-from pyspark.sql.functions import levenshtein
+from pyspark.sql import functions as F
 
-display( df.withColumn( "levenshtein_distance", levenshtein( "left", "right" ) ) )
+display( df.withColumn( "levenshtein_distance", F.levenshtein( "left", "right" ) ) )
 ```
 出力例
 |  | left | right | octet_length |

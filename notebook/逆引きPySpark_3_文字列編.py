@@ -15,12 +15,12 @@
 
 # COMMAND ----------
 
-from pyspark.sql.functions import upper
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(10, "Lionel", "Messi"),(9, "Julian", "Alvarez"),(22, "Lautaro", "Martinez")],("number","first_name","last_name"))
 
-df = ( df.withColumn( "first_name_upper", upper("first_name") )
-         .withColumn( "last_name_upper", upper("last_name") ) )
+df = ( df.withColumn( "first_name_upper", F.upper("first_name") )
+         .withColumn( "last_name_upper", F.upper("last_name") ) )
 display(df)
 
 # COMMAND ----------
@@ -30,12 +30,12 @@ display(df)
 
 # COMMAND ----------
 
-from pyspark.sql.functions import lower
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(10, "Lionel", "Messi"),(9, "Julian", "Alvarez"),(22, "Lautaro", "Martinez")],("number","first_name","last_name"))
 
-df = ( df.withColumn( "first_name_lower", lower("first_name") )
-         .withColumn( "last_name_lower", lower("last_name") ) )
+df = ( df.withColumn( "first_name_lower", F.lower("first_name") )
+         .withColumn( "last_name_lower", F.lower("last_name") ) )
 display(df)
 
 # COMMAND ----------
@@ -45,12 +45,12 @@ display(df)
 
 # COMMAND ----------
 
-from pyspark.sql.functions import initcap
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(10, "LIONEL", "MESSI"),(9, "JULIAN", "ALVAREZ"),(22, "LAUTARO", "MARTINEZ")],("number","first_name","last_name"))
 
-df = ( df.withColumn( "first_name_initcap", initcap("first_name") )
-         .withColumn( "last_name_initcap", initcap("last_name") ) )
+df = ( df.withColumn( "first_name_initcap", F.initcap("first_name") )
+         .withColumn( "last_name_initcap", F.initcap("last_name") ) )
 display(df)
 
 # COMMAND ----------
@@ -60,10 +60,10 @@ display(df)
 
 # COMMAND ----------
 
-from pyspark.sql.functions import format_number
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(10, "Lionel", "Messi", 41000000),(9, "Julian", "Alvarez", 3130000),(22, "Lautaro", "Martinez", 6375000)],("number","first_name","last_name","salary"))
-display(df.withColumn("salary_formatted",format_number("salary",2)))
+display( df.withColumn( "salary_formatted", F.format_number( "salary", 2 ) ) )
 
 # COMMAND ----------
 
@@ -72,11 +72,11 @@ display(df.withColumn("salary_formatted",format_number("salary",2)))
 
 # COMMAND ----------
 
-from pyspark.sql.functions import format_string
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(10, "Lionel", "Messi"),(9, "Julian", "Alvarez"),(22, "Lautaro", "Martinez")],("number","first_name","last_name"))
 
-display( df.withColumn( "string_formatted", format_string( "%s's number is %d", "last_name", "number" ) ) )
+display( df.withColumn( "string_formatted", F.format_string( "%s's number is %d", "last_name", "number" ) ) )
 
 # COMMAND ----------
 
@@ -85,11 +85,11 @@ display( df.withColumn( "string_formatted", format_string( "%s's number is %d", 
 
 # COMMAND ----------
 
-from pyspark.sql.functions import lpad
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(10, "Lionel", "Messi"),(9, "Julian", "Alvarez"),(22, "Lautaro", "Martinez")],("number","first_name","last_name"))
 
-display( df.withColumn( "number_padded", lpad( "number", 4, "0" ) ) )
+display( df.withColumn( "number_padded", F.lpad( "number", 4, "0" ) ) )
 
 # COMMAND ----------
 
@@ -98,11 +98,11 @@ display( df.withColumn( "number_padded", lpad( "number", 4, "0" ) ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import rpad
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(10, "Lionel", "Messi"),(9, "Julian", "Alvarez"),(22, "Lautaro", "Martinez")],("number","first_name","last_name"))
 
-display( df.withColumn( "number_padded", rpad( "number", 4, "0" ) ) )
+display( df.withColumn( "number_padded", F.rpad( "number", 4, "0" ) ) )
 
 # COMMAND ----------
 
@@ -111,11 +111,11 @@ display( df.withColumn( "number_padded", rpad( "number", 4, "0" ) ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import ltrim
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(10, "  Lionel  ", "Messi"),(9, "  Julian  ", "Alvarez"),(22, "  Lautaro  ", "Martinez")],("number","first_name","last_name"))
 
-display( df.withColumn( "first_name_trimmed", ltrim( "first_name" ) ) )
+display( df.withColumn( "first_name_trimmed", F.ltrim( "first_name" ) ) )
 
 # COMMAND ----------
 
@@ -124,11 +124,11 @@ display( df.withColumn( "first_name_trimmed", ltrim( "first_name" ) ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import rtrim
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(10, "  Lionel  ", "Messi"),(9, "  Julian  ", "Alvarez"),(22, "  Lautaro  ", "Martinez")],("number","first_name","last_name"))
 
-display( df.withColumn( "first_name_trimmed", rtrim( "first_name" ) ) )
+display( df.withColumn( "first_name_trimmed", F.rtrim( "first_name" ) ) )
 
 # COMMAND ----------
 
@@ -137,11 +137,11 @@ display( df.withColumn( "first_name_trimmed", rtrim( "first_name" ) ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import trim
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(10, "  Lionel  ", "Messi"),(9, "  Julian  ", "Alvarez"),(22, "  Lautaro  ", "Martinez")],("number","first_name","last_name"))
 
-display( df.withColumn( "first_name_trimmed", trim( "first_name" ) ) )
+display( df.withColumn( "first_name_trimmed", F.trim( "first_name" ) ) )
 
 # COMMAND ----------
 
@@ -155,11 +155,11 @@ display( df.withColumn( "first_name_trimmed", trim( "first_name" ) ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import instr
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([("MLflow", "MLflow is an open source platform for managing the end-to-end machine learning lifecycle. It tackles four primary functions"),("Delta Lake", "Delta Lake is an open-source storage framework that enables building a Lakehouse architecture with compute engines including Spark, PrestoDB, Flink, Trino, and Hive and APIs for Scala, Java, Rust, Ruby, and Python."),("Apache Spark", "Apache Spark™ is a multi-language engine for executing data engineering, data science, and machine learning on single-node machines or clusters.")],("name","what_is"))
 
-display( df.withColumn( "instr_position", instr( "what_is", "open" ) ) )
+display( df.withColumn( "instr_position", F.instr( "what_is", "open" ) ) )
 
 # COMMAND ----------
 
@@ -169,11 +169,11 @@ display( df.withColumn( "instr_position", instr( "what_is", "open" ) ) )
 # COMMAND ----------
 
 from pyspark.sql import Row
-from pyspark.sql.functions import locate
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([Row("Time is money"),Row("Speech is silver, silence is golden"),Row("Art is long, life is short")],("proverb string"))
 
-display( df.withColumn( "locate_position", locate( "is", "proverb", 10 ) ) )
+display( df.withColumn( "locate_position", F.locate( "is", "proverb", 10 ) ) )
 
 # COMMAND ----------
 
@@ -183,11 +183,11 @@ display( df.withColumn( "locate_position", locate( "is", "proverb", 10 ) ) )
 # COMMAND ----------
 
 from pyspark.sql import Row
-from pyspark.sql.functions import substring
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([Row("Time is money"),Row("Speech is silver, silence is golden"),Row("Art is long, life is short")],("proverb string"))
 
-display( df.withColumn( "substring", substring( "proverb", 22, 5 ) ) )
+display( df.withColumn( "substring", F.substring( "proverb", 22, 5 ) ) )
 
 # COMMAND ----------
 
@@ -196,11 +196,11 @@ display( df.withColumn( "substring", substring( "proverb", 22, 5 ) ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import regexp_extract
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([("MLflow", "MLflow is an open source platform for managing the end-to-end machine learning lifecycle. It tackles four primary functions"),("Delta Lake", "Delta Lake is an open-source storage framework that enables building a Lakehouse architecture with compute engines including Spark, PrestoDB, Flink, Trino, and Hive and APIs for Scala, Java, Rust, Ruby, and Python."),("Apache Spark", "Apache Spark™ is a multi-language engine for executing data engineering, data science, and machine learning on single-node machines or clusters.")],("name","what_is"))
 
-display( df.withColumn( "hyphon_word", regexp_extract( "what_is", r"\w+-\w+", 0 ) ) )
+display( df.withColumn( "hyphon_word", F.regexp_extract( "what_is", r"\w+-\w+", 0 ) ) )
 
 # COMMAND ----------
 
@@ -209,11 +209,11 @@ display( df.withColumn( "hyphon_word", regexp_extract( "what_is", r"\w+-\w+", 0 
 
 # COMMAND ----------
 
-from pyspark.sql.functions import substring_index
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([("Apache Spark", "spark.apache.org"),("Apache Kafka", "kafka.apache.org"),("Apache Parquet", "parquet.apache.org")],("name","domain"))
 
-display( df.withColumn( "subdomain", substring_index( "domain", ".", 1 ) ) )
+display( df.withColumn( "subdomain", F.substring_index( "domain", ".", 1 ) ) )
 
 # COMMAND ----------
 
@@ -227,11 +227,11 @@ display( df.withColumn( "subdomain", substring_index( "domain", ".", 1 ) ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import regexp_replace
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([("Yamada", "My phone is 090-0012-3456. please call me back"),("Tanaka", "電話番号は090-0123-4567です"),("Suzuki", "070-0012-3456に連絡欲しいとのことです")],("note_taker","note"))
 
-display( df.withColumn( "note_wo_phone", regexp_replace( "note", r"\d{3}-\d{4}-\d{4}", "<redacted>" ) ) )
+display( df.withColumn( "note_wo_phone", F.regexp_replace( "note", r"\d{3}-\d{4}-\d{4}", "<redacted>" ) ) )
 
 # COMMAND ----------
 
@@ -240,11 +240,11 @@ display( df.withColumn( "note_wo_phone", regexp_replace( "note", r"\d{3}-\d{4}-\
 
 # COMMAND ----------
 
-from pyspark.sql.functions import overlay
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([("SPARK_SQL", "CORE", 7, -1),("SPARK_SQL", "STREAMING", 7, 2),("SPARK_SQL", "PY", 1, 0)],("original", "phrase", "pos", "len"))
 
-display( df.withColumn( "overlayed", overlay( "original", "phrase", "pos", "len" ) ) )
+display( df.withColumn( "overlayed", F.overlay( "original", "phrase", "pos", "len" ) ) )
 
 # COMMAND ----------
 
@@ -253,11 +253,11 @@ display( df.withColumn( "overlayed", overlay( "original", "phrase", "pos", "len"
 
 # COMMAND ----------
 
-from pyspark.sql.functions import translate
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([("sofa", "l234S"),("chair", "g9"),("table", "So0")],("item", "order"))
 
-display( df.withColumn( "order_corrected", translate( "order", "olSeg", "01569" ) ) )
+display( df.withColumn( "order_corrected", F.translate( "order", "olSeg", "01569" ) ) )
 
 # COMMAND ----------
 
@@ -271,11 +271,11 @@ display( df.withColumn( "order_corrected", translate( "order", "olSeg", "01569" 
 
 # COMMAND ----------
 
-from pyspark.sql.functions import split
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([("ABC trading", "(06)1234-5678"),("XYZ company", "(03)1234-5678"),("shop123", "090-0012-3456")],("company", "number"))
 
-display( df.withColumn( "number_split", split( "number", "[()-]", -1 ) ) )
+display( df.withColumn( "number_split", F.split( "number", "[()-]", -1 ) ) )
 
 # COMMAND ----------
 
@@ -284,11 +284,11 @@ display( df.withColumn( "number_split", split( "number", "[()-]", -1 ) ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import sentences
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([("これは私のペンです", "ja", "JP"),("This is my pen", "en", "US"),("PySparkは、Spark SQLをPythonで扱うことのできるライブラリです", "ja", "JP")],("example", "language", "country"))
 
-display( df.withColumn( "example_split", sentences( "example", "language", "country" ) ) )
+display( df.withColumn( "example_split", F.sentences( "example", "language", "country" ) ) )
 
 # COMMAND ----------
 
@@ -297,7 +297,7 @@ display( df.withColumn( "example_split", sentences( "example", "language", "coun
 
 # COMMAND ----------
 
-from pyspark.sql.functions import concat, lit
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([("Ms", "Hanako", "Yamada"),("Mr", "Ichiro", "Tanaka"),("Dr", "Natsuko", "Suzuki")],("title", "first_name", "last_name"))
 
@@ -310,11 +310,11 @@ display( df.withColumn( "concatenated", concat( "title", lit(". "), "first_name"
 
 # COMMAND ----------
 
-from pyspark.sql.functions import concat_ws
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([("A", "0123", "45678"),("B", "0020", "33445"),("C", "1100", "09876")],("code", "number_1", "number_2"))
 
-display( df.withColumn( "concatenated", concat_ws( "-", "code", "number_1", "number_2" ) ) )
+display( df.withColumn( "concatenated", F.concat_ws( "-", "code", "number_1", "number_2" ) ) )
 
 # COMMAND ----------
 
@@ -323,11 +323,11 @@ display( df.withColumn( "concatenated", concat_ws( "-", "code", "number_1", "num
 
 # COMMAND ----------
 
-from pyspark.sql.functions import repeat
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(1, "abc"),(2, "xyz"),(3, "123")],("number", "code"))
 
-display( df.withColumn( "code_repeated", repeat( "code", 2 ) ) )
+display( df.withColumn( "code_repeated", F.repeat( "code", 2 ) ) )
 
 # COMMAND ----------
 
@@ -341,11 +341,11 @@ display( df.withColumn( "code_repeated", repeat( "code", 2 ) ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import ascii
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(1, "abc"),(2, "xyz"),(3, "123")],("number", "code"))
 
-display( df.withColumn( "ascii_code", ascii( "code" ) ) )
+display( df.withColumn( "ascii_code", F.ascii( "code" ) ) )
 
 # COMMAND ----------
 
@@ -354,11 +354,11 @@ display( df.withColumn( "ascii_code", ascii( "code" ) ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import base64
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(1, "abc"),(2, "xyz"),(3, "123")],("number", "code"))
 
-display( df.withColumn( "base64_encoded", base64( "code" ) ) )
+display( df.withColumn( "base64_encoded", F.base64( "code" ) ) )
 
 # COMMAND ----------
 
@@ -367,11 +367,11 @@ display( df.withColumn( "base64_encoded", base64( "code" ) ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import unbase64
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(1, "YWJj"),(2, "eHl6"),(3, "MTIz")],("number", "base64_encoded"))
 
-display( df.withColumn( "original_code", unbase64( "base64_encoded" ).cast("string") ) )
+display( df.withColumn( "original_code", F.unbase64( "base64_encoded" ).cast("string") ) )
 
 # COMMAND ----------
 
@@ -380,11 +380,11 @@ display( df.withColumn( "original_code", unbase64( "base64_encoded" ).cast("stri
 
 # COMMAND ----------
 
-from pyspark.sql.functions import encode
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(1, "あいうえお"),(2, "かきくけこ"),(3, "さしすせそ")],("number", "nihongo"))
 
-df.withColumn( "encoded", encode( "nihongo", "UTF-8" ) ).printSchema()
+df.withColumn( "encoded", F.encode( "nihongo", "UTF-8" ) ).printSchema()
 
 # COMMAND ----------
 
@@ -393,12 +393,12 @@ df.withColumn( "encoded", encode( "nihongo", "UTF-8" ) ).printSchema()
 
 # COMMAND ----------
 
-from pyspark.sql.functions import decode, encode
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(1, "あいうえお"),(2, "かきくけこ"),(3, "さしすせそ")],("number", "nihongo"))
 
-display( df.withColumn( "encoded", encode( "nihongo", "UTF-8" ) )
-           .withColumn( "decoded", decode( "encoded", "UTF-8" ) ) )
+display( df.withColumn( "encoded", F.encode( "nihongo", "UTF-8" ) )
+           .withColumn( "decoded", F.decode( "encoded", "UTF-8" ) ) )
 
 # COMMAND ----------
 
@@ -407,11 +407,11 @@ display( df.withColumn( "encoded", encode( "nihongo", "UTF-8" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import soundex
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(1, "apple"),(2, "orange"),(3, "strawberry")],("number", "fruit"))
 
-display( df.withColumn( "soundex", soundex( "fruit" ) ) )
+display( df.withColumn( "soundex", F.soundex( "fruit" ) ) )
 
 # COMMAND ----------
 
@@ -425,11 +425,11 @@ display( df.withColumn( "soundex", soundex( "fruit" ) ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import length
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(1, "apple"),(2, "orange"),(3, "いちご")],("number", "fruit"))
 
-display( df.withColumn( "length", length( "fruit" ) ) )
+display( df.withColumn( "length", F.length( "fruit" ) ) )
 
 # COMMAND ----------
 
@@ -438,11 +438,11 @@ display( df.withColumn( "length", length( "fruit" ) ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import bit_length
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(1, "apple"),(2, "orange"),(3, "いちご")],("number", "fruit"))
 
-display( df.withColumn( "bit_length", bit_length( "fruit" ) ) )
+display( df.withColumn( "bit_length", F.bit_length( "fruit" ) ) )
 
 # COMMAND ----------
 
@@ -451,11 +451,11 @@ display( df.withColumn( "bit_length", bit_length( "fruit" ) ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import octet_length
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([(1, "apple"),(2, "orange"),(3, "いちご")],("number", "fruit"))
 
-display( df.withColumn( "octet_length", octet_length( "fruit" ) ) )
+display( df.withColumn( "octet_length", F.octet_length( "fruit" ) ) )
 
 # COMMAND ----------
 
@@ -464,8 +464,8 @@ display( df.withColumn( "octet_length", octet_length( "fruit" ) ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import levenshtein
+from pyspark.sql import functions as F
 
 df = spark.createDataFrame([("tuple", "apple"),("range", "orange"),("いなご", "いちご")],("left", "right"))
 
-display( df.withColumn( "levenshtein_distance", levenshtein( "left", "right" ) ) )
+display( df.withColumn( "levenshtein_distance", F.levenshtein( "left", "right" ) ) )
