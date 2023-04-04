@@ -301,7 +301,7 @@ from pyspark.sql import functions as F
 
 df = spark.createDataFrame([("Ms", "Hanako", "Yamada"),("Mr", "Ichiro", "Tanaka"),("Dr", "Natsuko", "Suzuki")],("title", "first_name", "last_name"))
 
-display( df.withColumn( "concatenated", concat( "title", lit(". "), "first_name", lit(" "), "last_name" ) ) )
+display( df.withColumn( "concatenated", F.concat( "title", F.lit(". "), "first_name", F.lit(" "), "last_name" ) ) )
 
 # COMMAND ----------
 
