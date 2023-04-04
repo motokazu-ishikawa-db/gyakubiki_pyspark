@@ -11,10 +11,10 @@
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col, rand, to_date, to_timestamp
+from pyspark.sql import functions as F
 
 # 元データのtimestampはバラツキが少ないため、デモのために乱数を足しています
-df = spark.read.format("json").load("dbfs:/databricks-datasets/iot/iot_devices.json").select("device_id","device_name","humidity",((col("timestamp")/1000) + rand() * 100000000).alias("timestamp") ).withColumn( "time", to_timestamp( "timestamp" ) ).withColumn( "date", to_date( "time" ) )
+df = spark.read.format("json").load("dbfs:/databricks-datasets/iot/iot_devices.json").select("device_id","device_name","humidity",((F.col("timestamp")/1000) + F.rand() * 100000000).alias("timestamp") ).withColumn( "time", F.to_timestamp( "timestamp" ) ).withColumn( "date", F.to_date( "time" ) )
 
 # COMMAND ----------
 
@@ -28,9 +28,9 @@ df = spark.read.format("json").load("dbfs:/databricks-datasets/iot/iot_devices.j
 
 # COMMAND ----------
 
-from pyspark.sql.functions import current_timestamp
+from pyspark.sql import functions as F
 
-df = df.withColumn( "current_time_utc", current_timestamp() )
+df = df.withColumn( "current_time_utc", F.current_timestamp() )
 display( df.select( "device_id", "current_time_utc" ) )
 
 # COMMAND ----------
@@ -40,9 +40,9 @@ display( df.select( "device_id", "current_time_utc" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import current_date
+from pyspark.sql import functions as F
 
-df = df.withColumn( "today", current_date() )
+df = df.withColumn( "today", F.current_date() )
 display( df.select( "device_id", "today" ) )
 
 # COMMAND ----------
@@ -57,9 +57,9 @@ display( df.select( "device_id", "today" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import year
+from pyspark.sql import functions as F
 
-df = df.withColumn( "year", year( "time" ) )
+df = df.withColumn( "year", F.year( "time" ) )
 display( df.select( "time", "year" ) )
 
 # COMMAND ----------
@@ -69,9 +69,9 @@ display( df.select( "time", "year" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import month
+from pyspark.sql import functions as F
 
-df = df.withColumn( "month", month( "time" ) )
+df = df.withColumn( "month", F.month( "time" ) )
 display( df.select( "time", "month" ) )
 
 # COMMAND ----------
@@ -81,9 +81,9 @@ display( df.select( "time", "month" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import hour
+from pyspark.sql import functions as F
 
-df = df.withColumn( "hour", hour( "time" ) )
+df = df.withColumn( "hour", F.hour( "time" ) )
 display( df.select( "time", "hour" ) )
 
 # COMMAND ----------
@@ -93,9 +93,9 @@ display( df.select( "time", "hour" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import minute
+from pyspark.sql import functions as F
 
-df = df.withColumn( "minute", minute( "time" ) )
+df = df.withColumn( "minute", F.minute( "time" ) )
 display( df.select( "time", "minute" ) )
 
 # COMMAND ----------
@@ -105,9 +105,9 @@ display( df.select( "time", "minute" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import second
+from pyspark.sql import functions as F
 
-df = df.withColumn( "second", second( "time" ) )
+df = df.withColumn( "second", F.second( "time" ) )
 display( df.select( "time", "second" ) )
 
 # COMMAND ----------
@@ -117,9 +117,9 @@ display( df.select( "time", "second" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import date_trunc
+from pyspark.sql import functions as F
 
-df = df.withColumn( "date_trunc", date_trunc( "month", "time" ) )
+df = df.withColumn( "date_trunc", F.date_trunc( "month", "time" ) )
 display( df.select( "time","date_trunc" ) )
 
 # COMMAND ----------
@@ -129,10 +129,10 @@ display( df.select( "time","date_trunc" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import trunc
+from pyspark.sql import functions as F
 
-df = df.withColumn( "trunc", trunc( "date", "month" ) )
-display( df.select( "date","trunc" ) )
+df = df.withColumn( "trunc", F.trunc( "date", "month" ) )
+display( df.select( "date", "trunc" ) )
 
 # COMMAND ----------
 
@@ -141,9 +141,9 @@ display( df.select( "date","trunc" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import dayofyear
+from pyspark.sql import functions as F
 
-df = df.withColumn( "dayofyear", dayofyear( "date" ) )
+df = df.withColumn( "dayofyear", F.dayofyear( "date" ) )
 display( df.select( "date", "dayofyear" ) )
 
 # COMMAND ----------
@@ -153,9 +153,9 @@ display( df.select( "date", "dayofyear" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import weekofyear
+from pyspark.sql import functions as F
 
-df = df.withColumn( "weekofyear", weekofyear( "date" ) )
+df = df.withColumn( "weekofyear", F.weekofyear( "date" ) )
 display( df.select( "date", "weekofyear" ) )
 
 # COMMAND ----------
@@ -165,9 +165,9 @@ display( df.select( "date", "weekofyear" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import quarter
+from pyspark.sql import functions as F
 
-df = df.withColumn( "quarter", quarter( "date" ) )
+df = df.withColumn( "quarter", F.quarter( "date" ) )
 display( df.select( "date", "quarter" ) )
 
 # COMMAND ----------
@@ -177,9 +177,9 @@ display( df.select( "date", "quarter" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import dayofmonth
+from pyspark.sql import functions as F
 
-df = df.withColumn( "day", dayofmonth( "date" ) )
+df = df.withColumn( "day", F.dayofmonth( "date" ) )
 display( df.select( "date", "day" ) )
 
 # COMMAND ----------
@@ -189,9 +189,9 @@ display( df.select( "date", "day" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import dayofweek
+from pyspark.sql import functions as F
 
-df = df.withColumn( "dayofweek", dayofweek( "date" ) )
+df = df.withColumn( "dayofweek", F.dayofweek( "date" ) )
 display( df.select( "date", "dayofweek" ) )
 
 # COMMAND ----------
@@ -201,9 +201,9 @@ display( df.select( "date", "dayofweek" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import last_day
+from pyspark.sql import functions as F
 
-df = df.withColumn( "last_day_of_month", last_day( "date" ) )
+df = df.withColumn( "last_day_of_month", F.last_day( "date" ) )
 display( df.select( "date", "last_day_of_month" ) )
 
 # COMMAND ----------
@@ -218,9 +218,9 @@ display( df.select( "date", "last_day_of_month" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import timestamp_seconds
+from pyspark.sql import functions as F
 
-df = df.withColumn( "time", timestamp_seconds("timestamp") )
+df = df.withColumn( "time", F.timestamp_seconds("timestamp") )
 display( df.select( "timestamp", "time" ) )
 
 # COMMAND ----------
@@ -230,9 +230,9 @@ display( df.select( "timestamp", "time" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import unix_timestamp
+from pyspark.sql import functions as F
 
-df = df.withColumn( "unixtime", unix_timestamp("time") )
+df = df.withColumn( "unixtime", F.unix_timestamp("time") )
 display( df.select( "time", "unixtime" ) )
 
 # COMMAND ----------
@@ -242,9 +242,9 @@ display( df.select( "time", "unixtime" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import from_utc_timestamp
+from pyspark.sql import functions as F
 
-df = df.withColumn( "time_jst", from_utc_timestamp("time", "Asia/Tokyo") )
+df = df.withColumn( "time_jst", F.from_utc_timestamp("time", "Asia/Tokyo") )
 display( df.select( "time", "time_jst" ) )
 
 # COMMAND ----------
@@ -254,9 +254,9 @@ display( df.select( "time", "time_jst" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import to_utc_timestamp
+from pyspark.sql import functions as F
 
-df = df.withColumn( "time_utc", to_utc_timestamp("time_jst", "Asia/Tokyo") )
+df = df.withColumn( "time_utc", F.to_utc_timestamp("time_jst", "Asia/Tokyo") )
 display( df.select( "time_jst", "time_utc" ) )
 
 # COMMAND ----------
@@ -267,9 +267,9 @@ display( df.select( "time_jst", "time_utc" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import date_format
+from pyspark.sql import functions as F
 
-df = df.withColumn( "timestamp_string", date_format( "time", "yyyyMMdd-HHmmss" ) )
+df = df.withColumn( "timestamp_string", F.date_format( "time", "yyyyMMdd-HHmmss" ) )
 display( df.select( "time", "timestamp_string" ) )
 
 # COMMAND ----------
@@ -279,9 +279,9 @@ display( df.select( "time", "timestamp_string" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import to_timestamp
+from pyspark.sql import functions as F
 
-df = df.withColumn( "to_timestamp", to_timestamp( "timestamp_string", "yyyyMMdd-HHmmss" ) )
+df = df.withColumn( "to_timestamp", F.to_timestamp( "timestamp_string", "yyyyMMdd-HHmmss" ) )
 display( df.select( "timestamp_string", "to_timestamp" ) )
 
 # COMMAND ----------
@@ -291,9 +291,9 @@ display( df.select( "timestamp_string", "to_timestamp" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import to_date
+from pyspark.sql import functions as F
 
-df = df.withColumn( "to_date", to_date( "timestamp_string", "yyyyMMdd-HHmmss" ) )
+df = df.withColumn( "to_date", F.to_date( "timestamp_string", "yyyyMMdd-HHmmss" ) )
 display( df.select( "timestamp_string", "to_date" ) )
 
 # COMMAND ----------
@@ -303,9 +303,9 @@ display( df.select( "timestamp_string", "to_date" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import to_date
+from pyspark.sql import functions as F
 
-df = df.withColumn( "date", to_date( "time_jst" ) )
+df = df.withColumn( "date", F.to_date( "time_jst" ) )
 display( df.select( "time_jst", "date" ) )
 
 # COMMAND ----------
@@ -315,9 +315,9 @@ display( df.select( "time_jst", "date" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import make_date
+from pyspark.sql import functions as F
 
-df = df.withColumn( "made_date", make_date( "year", "month", "day" ) )
+df = df.withColumn( "made_date", F.make_date( "year", "month", "day" ) )
 display( df.select( "year", "month", "day", "made_date" ) )
 
 # COMMAND ----------
@@ -327,10 +327,10 @@ display( df.select( "year", "month", "day", "made_date" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col, rand, timestamp_seconds
+from pyspark.sql import functions as F
 
 # 元データのtimestampはバラツキが少ないため、デモのために乱数を足しています
-df2 = spark.read.format("json").load("dbfs:/databricks-datasets/iot/iot_devices.json").select("device_id","device_name","humidity",timestamp_seconds((col("timestamp")/1000) + rand() * 100000000).cast("timestamp").alias("start_time"),timestamp_seconds((col("timestamp")/1000) + rand() * 100000000).cast("timestamp").alias("end_time") ).withColumn( "start_date", col( "start_time" ).cast( "date" ) ).withColumn( "end_date", col( "end_time" ).cast( "date" ) )
+df2 = spark.read.format("json").load("dbfs:/databricks-datasets/iot/iot_devices.json").select("device_id","device_name","humidity", F.timestamp_seconds(( F.col("timestamp")/1000) + F.rand() * 100000000).cast("timestamp").alias("start_time"),F.timestamp_seconds((F.col("timestamp")/1000) + F.rand() * 100000000).cast("timestamp").alias("end_time") ).withColumn( "start_date", F.col( "start_time" ).cast( "date" ) ).withColumn( "end_date", F.col( "end_time" ).cast( "date" ) )
 
 # COMMAND ----------
 
@@ -344,9 +344,9 @@ df2 = spark.read.format("json").load("dbfs:/databricks-datasets/iot/iot_devices.
 
 # COMMAND ----------
 
-from pyspark.sql.functions import datediff
+from pyspark.sql import functions as F
 
-df2 = df2.withColumn( "datediff", datediff( "end_date", "start_date" ) )
+df2 = df2.withColumn( "datediff", F.datediff( "end_date", "start_date" ) )
 display( df2.select( "start_date", "end_date", "datediff" ) )
 
 # COMMAND ----------
@@ -356,9 +356,9 @@ display( df2.select( "start_date", "end_date", "datediff" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import months_between
+from pyspark.sql import functions as F
 
-df2 = df2.withColumn( "months_between", months_between( "end_date", "start_date" ) )
+df2 = df2.withColumn( "months_between", F.months_between( "end_date", "start_date" ) )
 display( df2.select( "start_date", "end_date", "months_between" ) )
 
 # COMMAND ----------
@@ -368,9 +368,9 @@ display( df2.select( "start_date", "end_date", "months_between" ) )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import next_day
+from pyspark.sql import functions as F
 
-df2 = df2.withColumn( "next_day_of_end_date", next_day( "end_date", "Mon" ) )
+df2 = df2.withColumn( "next_day_of_end_date", F.next_day( "end_date", "Mon" ) )
 display( df2.select( "end_date", "next_day_of_end_date" )  )
 
 # COMMAND ----------
@@ -380,9 +380,9 @@ display( df2.select( "end_date", "next_day_of_end_date" )  )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import date_add
+from pyspark.sql import functions as F
 
-df2 = df2.withColumn( "three_days_after_end_date", date_add( "end_date", 3 ) )
+df2 = df2.withColumn( "three_days_after_end_date", F.date_add( "end_date", 3 ) )
 display( df2.select( "end_date", "three_days_after_end_date" )  )
 
 # COMMAND ----------
@@ -392,9 +392,9 @@ display( df2.select( "end_date", "three_days_after_end_date" )  )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import date_sub
+from pyspark.sql import functions as F
 
-df2 = df2.withColumn( "three_days_before_start_date", date_sub( "start_date", 3 ) )
+df2 = df2.withColumn( "three_days_before_start_date", F.date_sub( "start_date", 3 ) )
 display( df2.select( "start_date", "three_days_before_start_date" )  )
 
 # COMMAND ----------
@@ -404,9 +404,9 @@ display( df2.select( "start_date", "three_days_before_start_date" )  )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import add_months
+from pyspark.sql import functions as F
 
-df2 = df2.withColumn( "two_months_after_end_date", add_months( "end_date", 2 ) )
+df2 = df2.withColumn( "two_months_after_end_date", F.add_months( "end_date", 2 ) )
 display( df2.select( "end_date", "two_months_after_end_date" )  )
 
 # COMMAND ----------
@@ -421,9 +421,9 @@ display( df2.select( "end_date", "two_months_after_end_date" )  )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import avg, window
+from pyspark.sql import functions as F
 
-df_group = df2.groupBy( window("end_time", "5 days", "1 day" ) ).agg( avg("humidity").alias("average_humidity") )
+df_group = df2.groupBy( F.window("end_time", "5 days", "1 day" ) ).agg( F.avg("humidity").alias("average_humidity") )
 display( df_group )
 
 # COMMAND ----------
@@ -433,11 +433,7 @@ display( df_group )
 
 # COMMAND ----------
 
-from pyspark.sql.functions import session_window
+from pyspark.sql import functions as F
 
-df_group = df2.groupBy( session_window( "end_time", "1 hour" ) ).count()
+df_group = df2.groupBy( F.session_window( "end_time", "1 hour" ) ).count()
 display( df_group )
-
-# COMMAND ----------
-
-

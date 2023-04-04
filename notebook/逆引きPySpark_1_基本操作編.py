@@ -37,8 +37,8 @@ df_2 = df.withColumn("pickup_date", f.to_date("pickup_datetime"))
 # COMMAND ----------
 
 # 例文その１
-from pyspark.sql.functions import col
-df_3 = df_2.filter( col("trip_distance") > 10 )
+from pyspark.sql import functions as F
+df_3 = df_2.filter( F.col("trip_distance") > 10 )
 
 # COMMAND ----------
 
