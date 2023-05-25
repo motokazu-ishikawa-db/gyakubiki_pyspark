@@ -300,6 +300,42 @@ display( df.withColumn( "subdomain", F.substring_index( "domain", ".", 1 ) ) )
 | 2 | Apache Kafka | kafka.apache.org | kafka |
 | 3 | Apache Parquet | parquet.apache.org | parquet |
 
+## 3-2-6 指定した文字列で始まる文字列を抽出する
+Columnの[startswith()](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.Column.startswith.html#pyspark.sql.Column.startswith)関数を使って、特定の文字列で始まる文字列かどうかを判別することができます。
+
+```py
+# 構文
+df.filter( F.col(<文字列型カラム>).startswith(<開始文字列>) )
+
+# 例文
+from pyspark.sql import functions as F
+
+display( df.filter( F.col( "name" ).startswith( "Apache" ) ) )
+```
+出力例
+|  | name | what_is |
+|:-:|:-:|:-:|
+| 1 | Apache Spark | Apache Spark™ is a multi-language engine for executing data engineering, data science, and machine learning on single-node machines or clusters. |
+| 2 | Apache Parquet | Apache Parquet is an open source, column-oriented data file format designed for efficient data storage and retrieval. |
+| 3 | Apache Airflow | Airflow is a platform created by the community to programmatically author, schedule and monitor workflows. |
+
+## 3-2-7 指定した文字列で終わる文字列を抽出する
+Columnの[endswith()](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.Column.endswith.html#pyspark.sql.Column.endswith)関数を使って、特定の文字列で終わる文字列かどうかを判別することができます。
+
+```py
+# 構文
+df.filter( F.col(<文字列型カラム>).endswith(<終了文字列>) )
+
+# 例文
+from pyspark.sql import functions as F
+
+display( df.filter( F.col( "name" ).endswith( "flow" ) ) )
+```
+出力例
+|  | name | what_is |
+|:-:|:-:|:-:|
+| 1 | MLflow | MLflow is an open source platform for managing the end-to-end machine learning lifecycle. It tackles four primary functions. |
+| 2 | Apache Parquet | Airflow is a platform created by the community to programmatically author, schedule and monitor workflows. |
 
 # 3-3 置換
 

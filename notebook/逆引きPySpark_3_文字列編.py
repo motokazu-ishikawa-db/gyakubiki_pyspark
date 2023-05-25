@@ -218,6 +218,32 @@ display( df.withColumn( "subdomain", F.substring_index( "domain", ".", 1 ) ) )
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC ### 3-2-6 指定した文字列で始まる文字列を抽出する
+
+# COMMAND ----------
+
+from pyspark.sql import functions as F
+
+df = spark.createDataFrame([("Apache Spark", "Apache Spark™ is a multi-language engine for executing data engineering, data science, and machine learning on single-node machines or clusters."),("MLflow", "MLflow is an open source platform for managing the end-to-end machine learning lifecycle. It tackles four primary functions."),("Apache Parquet", "Apache Parquet is an open source, column-oriented data file format designed for efficient data storage and retrieval."),("Apache Airflow", "Airflow is a platform created by the community to programmatically author, schedule and monitor workflows.")],("name","what_is"))
+
+display( df.filter( F.col( "name" ).startswith( "Apache" ) ) )
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### 3-2-7 指定した文字列で終わる文字列を抽出する
+
+# COMMAND ----------
+
+from pyspark.sql import functions as F
+
+df = spark.createDataFrame([("Apache Spark", "Apache Spark™ is a multi-language engine for executing data engineering, data science, and machine learning on single-node machines or clusters."),("MLflow", "MLflow is an open source platform for managing the end-to-end machine learning lifecycle. It tackles four primary functions."),("Apache Parquet", "Apache Parquet is an open source, column-oriented data file format designed for efficient data storage and retrieval."),("Apache Airflow", "Airflow is a platform created by the community to programmatically author, schedule and monitor workflows.")],("name","what_is"))
+
+display( df.filter( F.col( "name" ).endswith( "flow" ) ) )
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC ## 3-3 置換
 
 # COMMAND ----------
